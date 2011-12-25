@@ -1,0 +1,59 @@
+
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd
+	"
+>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>test</groupId>
+	<artifactId>jslint-import-fixture</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<properties>
+		<jsSourceDir>${basedir}/src/main/js</jsSourceDir>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<configuration>
+					<target>
+						<taskdef
+							name="jslint"
+							classname="com.googlecode.jslint4java.ant.JSLintTask"
+							classpathref="maven.plugin.classpath"
+						/>
+						<property name="jslint.reports.directory" value="${project.build.directory}/jslint-reports"/>
+						<mkdir dir="${jslint.reports.directory}"/>
+						<jslint options="browser,maxlen=120,plusplus,sloppy,vars">
+							<formatter type="junit" destfile="${jslint.reports.directory}"/>
+							<formatter type="report" destfile="${jslint.reports.directory}/jslint.html"/>
+							<fileset dir="${jsSourceDir}" includes="**/*"/>
+						</jslint>
+					</target>
+				</configuration>
+				<executions>
+					<execution>
+						<id>antrun-jslint</id>
+						<phase>test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.googlecode.jslint4java</groupId>
+						<artifactId>jslint4java-ant</artifactId>
+						<version>2.0.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,8 @@
+Sample program to demonstrate the problem outlined in
+http://tech.groups.yahoo.com/group/jslint_com/message/2710
+
+You need Apache Maven to run this sample:
+
+	mvn clean verify
+
+The build will fail. Refer to './target/jslint-reports/jslint.html'.
